@@ -3,8 +3,8 @@
 import { useEffect, useState } from 'react';
 import { Connection, PublicKey } from '@solana/web3.js';
 import * as anchor from '@coral-xyz/anchor';
-import idl from '../../../public/project_listing_idl.json'; // Correctly import the IDL
-import { sha256 } from 'js-sha256'; // Import the sha256 function
+import idl from '../../../public/project_listing_idl.json'; // Import IDL as JSON
+import { sha256 } from 'js-sha256'; // Import sha256 function
 import bs58 from 'bs58'; // Import bs58 for Base58 encoding
 
 interface Project {
@@ -21,7 +21,7 @@ interface Review {
   review_text: string;
 }
 
-export default function ClientComponent() {
+export default function ProjectReviews() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [reviews, setReviews] = useState<{ [projectId: string]: Review[] }>({});
 
@@ -35,13 +35,15 @@ export default function ClientComponent() {
     async function fetchProjects() {
       const connection = new Connection('https://api.devnet.solana.com');
       const programId = new PublicKey('HahXGYW8GUUJSvnYRgj7LaHuvLcUhhz71tbRgX6aDPuE'); // Your program ID
-      const coder = new anchor.BorshCoder(idl); // Initialize Anchor's Borsh Coder with IDL
-
-      // Manually calculate the 8-byte discriminator for the "Project" and "Review" account types
-      const projectDiscriminator = getDiscriminator('Project');
-      const reviewDiscriminator = getDiscriminator('Review');
 
       try {
+        // Initialize Anchor's Borsh Coder
+        const coder = new anchor.BorshCoder(idl as anchor.Idl);
+
+        // Manually calculate the 8-byte discriminator for the "Project" and "Review" account types
+        const projectDiscriminator = getDiscriminator('Project');
+        const reviewDiscriminator = getDiscriminator('Review');
+
         // Fetch all project accounts
         const projectAccounts = await connection.getProgramAccounts(programId, {
           filters: [
