@@ -1,0 +1,237 @@
+{
+    "address": "HahXGYW8GUUJSvnYRgj7LaHuvLcUhhz71tbRgX6aDPuE",
+    "metadata": {
+      "name": "project_listing",
+      "version": "0.1.0",
+      "spec": "0.1.0",
+      "description": "Created with Anchor"
+    },
+    "instructions": [
+      {
+        "name": "list_project",
+        "discriminator": [
+          94,
+          165,
+          99,
+          98,
+          232,
+          40,
+          240,
+          248
+        ],
+        "accounts": [
+          {
+            "name": "project",
+            "writable": true,
+            "signer": true
+          },
+          {
+            "name": "user",
+            "writable": true,
+            "signer": true
+          },
+          {
+            "name": "system_program",
+            "address": "11111111111111111111111111111111"
+          }
+        ],
+        "args": [
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "category",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "name": "submit_review",
+        "discriminator": [
+          106,
+          30,
+          50,
+          83,
+          89,
+          46,
+          213,
+          239
+        ],
+        "accounts": [
+          {
+            "name": "review",
+            "writable": true,
+            "signer": true
+          },
+          {
+            "name": "user",
+            "writable": true,
+            "signer": true
+          },
+          {
+            "name": "system_program",
+            "address": "11111111111111111111111111111111"
+          }
+        ],
+        "args": [
+          {
+            "name": "project_id",
+            "type": "pubkey"
+          },
+          {
+            "name": "rating",
+            "type": "u8"
+          },
+          {
+            "name": "review_text",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "name": "upvote_review",
+        "discriminator": [
+          152,
+          124,
+          165,
+          192,
+          117,
+          168,
+          220,
+          102
+        ],
+        "accounts": [
+          {
+            "name": "review",
+            "writable": true
+          },
+          {
+            "name": "reputation",
+            "writable": true
+          },
+          {
+            "name": "system_program",
+            "address": "11111111111111111111111111111111"
+          }
+        ],
+        "args": [
+          {
+            "name": "review_id",
+            "type": "pubkey"
+          }
+        ]
+      }
+    ],
+    "accounts": [
+      {
+        "name": "Project",
+        "discriminator": [
+          205,
+          168,
+          189,
+          202,
+          181,
+          247,
+          142,
+          19
+        ]
+      },
+      {
+        "name": "Reputation",
+        "discriminator": [
+          55,
+          148,
+          90,
+          71,
+          68,
+          183,
+          193,
+          28
+        ]
+      },
+      {
+        "name": "Review",
+        "discriminator": [
+          124,
+          63,
+          203,
+          215,
+          226,
+          30,
+          222,
+          15
+        ]
+      }
+    ],
+    "types": [
+      {
+        "name": "Project",
+        "type": {
+          "kind": "struct",
+          "fields": [
+            {
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "name": "category",
+              "type": "string"
+            },
+            {
+              "name": "listed_by",
+              "type": "pubkey"
+            },
+            {
+              "name": "payment",
+              "type": "u64"
+            }
+          ]
+        }
+      },
+      {
+        "name": "Reputation",
+        "type": {
+          "kind": "struct",
+          "fields": [
+            {
+              "name": "user",
+              "type": "pubkey"
+            },
+            {
+              "name": "points",
+              "type": "u64"
+            }
+          ]
+        }
+      },
+      {
+        "name": "Review",
+        "type": {
+          "kind": "struct",
+          "fields": [
+            {
+              "name": "project_id",
+              "type": "pubkey"
+            },
+            {
+              "name": "reviewer",
+              "type": "pubkey"
+            },
+            {
+              "name": "rating",
+              "type": "u8"
+            },
+            {
+              "name": "review_text",
+              "type": "string"
+            },
+            {
+              "name": "upvotes",
+              "type": "u64"
+            }
+          ]
+        }
+      }
+    ]
+  }
