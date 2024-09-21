@@ -3,13 +3,27 @@
 import { useEffect, useState } from 'react';
 import { Connection, PublicKey } from '@solana/web3.js';
 import * as anchor from '@coral-xyz/anchor';
-import idl from '../../public/project_listing_idl.json'; // Correctly import the IDL
+import idl from '../../../public/project_listing_idl.json'; // Correctly import the IDL
 import { sha256 } from 'js-sha256'; // Import the sha256 function
 import bs58 from 'bs58'; // Import bs58 for Base58 encoding
 
+interface Project {
+  publicKey: PublicKey;
+  name: string;
+  category: string;
+  listed_by: PublicKey;
+}
+
+interface Review {
+  project_id: PublicKey;
+  reviewer: PublicKey;
+  rating: number;
+  review_text: string;
+}
+
 export default function ClientComponent() {
-  const [projects, setProjects] = useState<any[]>([]);
-  const [reviews, setReviews] = useState<{ [projectId: string]: any[] }>({});
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [reviews, setReviews] = useState<{ [projectId: string]: Review[] }>({});
 
   // Helper function to calculate the 8-byte discriminator
   function getDiscriminator(accountName: string): Buffer {
@@ -46,7 +60,7 @@ export default function ClientComponent() {
           return {
             publicKey: accountInfo.pubkey,
             ...projectData,
-          };
+          } as Project; // Cast to Project type
         });
 
         setProjects(decodedProjects);
@@ -64,7 +78,7 @@ export default function ClientComponent() {
         });
 
         // Group reviews by project_id
-        const reviewsByProject: { [projectId: string]: any[] } = {};
+        const reviewsByProject: { [projectId: string]: Review[] } = {};
         reviewAccounts.forEach((accountInfo) => {
           const reviewData = coder.accounts.decode('Review', accountInfo.account.data);
           const projectId = reviewData.project_id.toString();
@@ -73,7 +87,7 @@ export default function ClientComponent() {
             reviewsByProject[projectId] = [];
           }
 
-          reviewsByProject[projectId].push(reviewData);
+          reviewsByProject[projectId].push(reviewData as Review); // Cast to Review type
         });
 
         setReviews(reviewsByProject);

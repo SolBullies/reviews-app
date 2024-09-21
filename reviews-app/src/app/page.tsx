@@ -1,4 +1,4 @@
-import ClientComponent from './ClientComponent';
+import ProjectReviews from './components/ProjectReviews';
 
 // Add metadata to the Home component
 export const metadata = {
@@ -9,7 +9,7 @@ export const metadata = {
 export default function Home() {
   return (
     <main>
-      <ClientComponent />
+      <ProjectReviews />
     </main>
   );
 }
