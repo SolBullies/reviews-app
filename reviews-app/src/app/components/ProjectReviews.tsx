@@ -34,7 +34,7 @@ export default function ProjectReviews() {
   useEffect(() => {
     async function fetchProjects() {
       const connection = new Connection('https://api.devnet.solana.com');
-      const programId = new PublicKey('HahXGYW8GUUJSvnYRgj7LaHuvLcUhhz71tbRgX6aDPuE'); // Your program ID
+      const programId = new PublicKey('3avu7LSQhwJeZywCPwFcFMWtFJuHHumYQnWGWMLMWH3B'); // Your program ID
 
       try {
         // Initialize Anchor's Borsh Coder
